@@ -1,6 +1,6 @@
 let a = 2;
 let b = 6;
 
-b = a;
+a = b;
 
 console.log(`${a}\n${b}`);
