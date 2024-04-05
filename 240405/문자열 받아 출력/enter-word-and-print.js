@@ -1,4 +1,4 @@
 const fs = require('fs');
-const input = fs.readSync(0).toString().tream();
+const input = fs.readFileSync(0).toString().tream();
 
 console.log(input);
