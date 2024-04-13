@@ -3,7 +3,7 @@ const alpha = fs.readFileSync(0).toString();
 
 let result;
 
-if(alpha === 'S'){
+if(alpha == 'S'){
     result = 'Superior';
 }else if(alpha === 'A'){
     result = 'Excellent';
