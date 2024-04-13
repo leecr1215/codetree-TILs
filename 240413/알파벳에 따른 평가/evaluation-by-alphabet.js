@@ -1,9 +1,9 @@
 const fs = require('fs');
-const alpha = fs.readFileSync(0).toString();
+const alpha = fs.readFileSync(0).toString().trim();
 
 let result;
 
-if(alpha == 'S'){
+if(alpha === 'S'){
     result = 'Superior';
 }else if(alpha === 'A'){
     result = 'Excellent';
