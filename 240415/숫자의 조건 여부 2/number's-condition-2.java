@@ -6,7 +6,7 @@ public class Main {
 
         int a = sc.nextInt();
 
-        if(a == 7){
+        if(a == 5){
             System.out.println('A');
         }
 
