@@ -1,15 +1,20 @@
 const fs = require('fs');
 const [a, b] = fs.readFileSync(0).toString().split(" ").map(Number);
 
+let result1;
+let result2;
+
 if(a < b){
-    console.log(1);
+    result1 = 1;
 }else{
-    console.log(0);
+    result1 = 0;
 }
 
 
 if(a === b){
-    console.log(1);
+    result2 = 1;
 }else{
-    console.log(0);
+    result2 = 0;
 }
+
+console.log(result1, result2);
