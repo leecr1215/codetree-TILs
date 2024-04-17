@@ -10,7 +10,7 @@ public class Main {
 
         int min = a;
         min = Math.min(min, b);
-        min = Math.min(b, c);
+        min = Math.min(min, c);
 
         System.out.println(min);
     }
