@@ -1,5 +1,5 @@
 const fs = require('fs');
-const [a, b, c] = fs.readFileSync(0).toString().map(Number);
+const [a, b, c] = fs.readFileSync(0).toString().split(" ").map(Number);
 
 if(a < b && b < c){
     console.log(1);
