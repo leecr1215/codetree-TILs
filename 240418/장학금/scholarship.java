@@ -11,9 +11,9 @@ public class Main {
 
         if(mid >= 90){
             if(fin >= 95){
-                award = 10;
+                award = 100000;
             }else if(fin >= 90){
-                award = 5;
+                award = 50000;
             }
         }
 
