@@ -6,11 +6,10 @@ public class Main {
 
         int n = sc.nextInt();
 
-        int i = 0;
+        int i = 3;
         while(i < n){
-            i += 3;
-
             System.out.print(i + " ");
+            i += 3;
         }
     }
 }
