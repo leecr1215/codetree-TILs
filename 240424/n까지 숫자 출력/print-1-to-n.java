@@ -6,7 +6,7 @@ public class Main {
 
         int n = sc.nextInt();
 
-        int i = 0;
+        int i = 1;
 
         while(i <= n){
             System.out.print(i + " ");
