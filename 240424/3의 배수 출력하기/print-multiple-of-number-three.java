@@ -7,7 +7,7 @@ public class Main {
         int n = sc.nextInt();
 
         int i = 3;
-        while(i < n){
+        while(i <= n){
             System.out.print(i + " ");
             i += 3;
         }
