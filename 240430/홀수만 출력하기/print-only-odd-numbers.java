@@ -7,8 +7,9 @@ public class Main {
         int n = sc.nextInt();
 
         for(int i = 0; i < n; i++){
-            if(i % 2 != 0 && i % 3 == 0){
-                System.out.println(i);
+            int num = sc.nextInt();
+            if(num % 2 != 0 && num % 3 == 0){
+                System.out.println(num);
             }
         }
 
