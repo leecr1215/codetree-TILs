@@ -1,5 +1,5 @@
 const fs = require('fs');
-const nums = fs.readFileSync(0).toString().split('\n').map(Number);
+const nums = fs.readFileSync(0).toString().trim().split('\n').map(Number);
 
 let cnt = 0;
 
