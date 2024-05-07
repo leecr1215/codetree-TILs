@@ -5,4 +5,4 @@ let sum = 0;
 for(let i = 1; i < arr.length; i++){
     sum += arr[i];
 }
-console.log(sum, sum / arr[0]);
+console.log(sum, (sum / arr[0]).toFixed(1));
