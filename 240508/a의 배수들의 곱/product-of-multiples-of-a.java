@@ -9,9 +9,8 @@ public class Main {
 
         int result = 1;
 
-
-        for(int i = 1; i <= b; i*=a){
-            result *= i;
+        for(int i = a; i <= b; i+=a){
+            result = result * i;
         }
 
         System.out.println(result);
