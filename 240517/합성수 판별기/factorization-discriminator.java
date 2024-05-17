@@ -6,7 +6,7 @@ public class Main {
 
         int n = sc.nextInt();
 
-        int isCompositeNum = false;
+        boolean isCompositeNum = false;
 
         for(int i = 2; i < n; i++){
             if(n % i == 0){
@@ -16,6 +16,6 @@ public class Main {
         }
         
 
-        System.out.println(isCompositeNum);
+        System.out.println(isCompositeNum ? 'N' : 'C');
     }
 }
