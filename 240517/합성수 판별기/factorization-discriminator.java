@@ -16,6 +16,6 @@ public class Main {
         }
         
 
-        System.out.println(isCompositeNum ? 'N' : 'C');
+        System.out.println(isCompositeNum ? 'C' : 'N');
     }
 }
