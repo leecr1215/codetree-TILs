@@ -6,16 +6,15 @@ public class Main {
 
         int n = sc.nextInt();
 
-        int cnt = 1;
-        for(int i = 0; i < n; i++){
-            for(int j = 0; j < n; j++){
-                if(i % 2 == 0){
-                    System.out.print(cnt++ + " ");
-                    
-                }else{
-                    System.out.print(++cnt + " ");
-                    cnt += 1;
-                }
+        int cnt = 0;
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < n; j++) {
+                if(i % 2 == 0)
+                    cnt++;
+                else
+                    cnt += 2;
+                
+                System.out.print(cnt + " ");
             }
             System.out.println();
         }
