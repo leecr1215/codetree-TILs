@@ -13,7 +13,8 @@ public class Main {
                     System.out.print(cnt++ + " ");
                     
                 }else{
-                    System.out.print(++cnt++ + " ");
+                    System.out.print(++cnt + " ");
+                    cnt += 1;
                 }
             }
             System.out.println();
