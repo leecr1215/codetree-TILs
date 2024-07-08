@@ -7,12 +7,15 @@ public class Main {
         int n = sc.nextInt();
 
         for(int i = n; i > 0; i--){
-            for(int j = n-i; j > 0; j--){
-                System.out.print("  ");
+            for(int j = n; j > 0; j--){
+                if(i < j){
+                    System.out.print("  ");
+                }
+                else{
+                    System.out.print(j + " ");
+                }
             }
-            for(int j = i; j > 0; j--){
-                System.out.print(j + " ");
-            }
+            
             System.out.println();
         }
     }
