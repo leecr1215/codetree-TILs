@@ -9,7 +9,7 @@ for(let i = 0; i < n; i++){
         str += "  ";
     }
     for(let j = i; j < n; j++){
-        if(cnt > 90) cnt = 'A'.charCodeAt;
+        if(cnt > 'Z'.charCodeAt()) cnt = 'A'.charCodeAt();
         str += String.fromCharCode(cnt) + " ";
         cnt++;
     }
