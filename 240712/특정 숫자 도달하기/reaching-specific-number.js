@@ -15,4 +15,4 @@ for(let i = 0; i < 10; i++){
 
 }
 
-console.log(sum, Math.round(sum / cnt * 10) /  10);
+console.log(sum, (sum / cnt).toFixed(1) );
