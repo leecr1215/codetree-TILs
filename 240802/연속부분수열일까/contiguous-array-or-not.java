@@ -23,7 +23,7 @@ public class Main {
         for(int i = 0; i < n1; i++){
             
             if(A[i] == B[0]){
-                if(i + n2 >= n1){
+                if(i + n2 > n1){
                         //A 배열의 범위 넘어감
                         continue;
                 }
