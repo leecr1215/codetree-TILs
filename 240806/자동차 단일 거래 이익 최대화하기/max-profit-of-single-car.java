@@ -23,8 +23,6 @@ public class Main {
             }else if(cost[i] < min){
                 min = cost[i];
                 max = cost[i];
-            }else{
-
             }
         }
 
