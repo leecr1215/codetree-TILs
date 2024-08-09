@@ -10,7 +10,7 @@ public class Main {
         int[][] arr = new int[n][m];
 
         for(int i = 0; i < n; i++){
-            for(int j = 0; j < n; j++){
+            for(int j = 0; j < m; j++){
                 arr[i][j] = sc.nextInt();
             }
         }
@@ -18,7 +18,7 @@ public class Main {
         StringBuilder sb = new StringBuilder();
 
         for(int i = 0; i < n; i++){
-            for(int j = 0; j < n; j++){
+            for(int j = 0; j < m; j++){
                 if(sc.nextInt() == arr[i][j]){
                     sb.append(0 + " ");
                 }else{
