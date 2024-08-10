@@ -8,17 +8,20 @@ public class Main {
         int[][] arr = new int[n][n];
 
         int cnt = 1;
+        boolean check = true;
         for(int i = n-1; i >= 0; i--){
              
-            if(i % 2 != 0){
+            if(!check){
                 for(int j = 0; j < n; j++){
                     arr[j][i] = cnt++;
                 }
+                check = !check;
 
             }else{
                 for(int j = n-1; j >= 0; j--){
                     arr[j][i] = cnt++;
                 }
+                check = !check;
 
             }
         }
