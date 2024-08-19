@@ -16,9 +16,8 @@ for(let i = 0; i < strs.length; i++){
     }
 }
 
-if(cnt >= 1){
-    result += targetAlpha + cnt;
-}
+result += targetAlpha + cnt;
+
 
 console.log(result.length);
 console.log(result);
