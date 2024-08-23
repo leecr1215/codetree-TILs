@@ -1,0 +1,4 @@
+const fs = require('fs');
+const [str1, str2] = fs.readFileSync(0).toString().trim().split(" ");
+
+console.log(str1.slice(0,2) + str2.slice(2));
