@@ -10,15 +10,15 @@ input.splice(1).forEach((value)=>{
 
 
     if(Number(type) === 1){
+
         const temp = str[Number(a)-1]; // a 
         str[Number(a)-1] = str[Number(b)-1]; 
         str[Number(b)-1] = temp;
         
-        console.log(str.join(''));
         
     }else{
-        console.log(str.join('').replaceAll(a, b));
+        str = str.map((alpha)=>alpha === a ? b : alpha);
     }
 
-    
+    console.log(str.join(''));
 })
