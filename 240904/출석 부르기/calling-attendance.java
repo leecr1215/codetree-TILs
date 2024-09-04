@@ -11,8 +11,10 @@ public class Main {
             name = "John";
         }else if(n==2){
             name = "Tom";
-        }else{
+        }else if(n==3){
             name = "Paul";
+        }else{
+            name = "Vacancy";
         }
 
         System.out.println(name);
