@@ -20,6 +20,6 @@ public class Main {
             }
         }
 
-        System.out.println(sum + " " + Math.round((double)sum / cnt * 10) / 10);
+        System.out.println(sum + " " + Math.round((double)sum / cnt * 10) / 10.0);
     }
 }
