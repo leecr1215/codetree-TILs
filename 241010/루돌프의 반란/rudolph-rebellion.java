@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.StringTokenizer;
@@ -37,14 +38,16 @@ public class Main {
 		int d;
 		int faintingTurn; // -1이면 기절 X 상태
 		int point; // 산타 획득 점수
+		boolean isDead; // 탈락한 산타
 
-		public Santa(int num, int x, int y, int d, int faintingTurn, int point) {
+		public Santa(int num, int x, int y, int d, int faintingTurn, int point, boolean isDead) {
 			this.num = num;
 			this.x = x;
 			this.y = y;
 			this.d = d;
 			this.faintingTurn = faintingTurn;
 			this.point = point;
+			this.isDead = isDead;
 		}
 
 		@Override
@@ -86,13 +89,13 @@ public class Main {
 			st = new StringTokenizer(br.readLine());
 
 			santas.add(new Santa(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()),
-					Integer.parseInt(st.nextToken()), -1, -1, 0));
+					Integer.parseInt(st.nextToken()), -1, -1, 0, false));
 		}
 
 		Collections.sort(santas);
 
 		for (int i = 0; i < M; i++) {
-			// System.out.printf("=======%d 번째 턴=========\n", i + 1);
+			//System.out.printf("=======%d 번째 턴=========\n", i + 1);
 
 			// 1. 루돌프 이동
 			moveRudolph();
@@ -101,39 +104,29 @@ public class Main {
 			ruDolphCrush(i);
 
 			// 종료조건 : 산타가 다 탈락한 경우
-			if (santas.isEmpty())
+			if (isAllSantaDead())
 				break;
 
 			// 2. 산타 이동
 			moveSanta(i);
 			
-			// 2-1. 산타 이동 후 충돌 확인
-			santaCrush(i);
 
 			// 종료조건 : 산타가 다 탈락한 경우
-			if (santas.isEmpty())
+			if (isAllSantaDead())
 				break;
 
-			// 턴이 제대로 종료했다면, 산타들한테 1점씩 주기
+			// 턴이 제대로 종료했다면, 살아있는 산타들한테 1점씩 주기
 			for (Santa santa : santas) {
-				santa.point += 1;
+				if(!santa.isDead) {
+					santa.point += 1;
+				}
 			}
-
-			// 턴이 끝나고 살아남은 산타들 출력
-			// System.out.println("턴이 끝나고 살아남은 산타들 : " + Arrays.toString(santas.toArray()));
 		}
 
-		// 남은 산타들도 points에 추가
-		for (Santa santa : santas) {
-			points.add(new Point(santa.num, santa.point));
-		}
-
-		// 점수들 number대로 정렬
-		Collections.sort(points, (Point p1, Point p2) -> p1.santaNum - p2.santaNum);
 
 		// 모든 산타의 점수 출력
-		for (Point point : points) {
-			System.out.print(point.point + " ");
+		for (Santa santa : santas) {
+			System.out.print(santa.point + " ");
 		}
 
 	}
@@ -141,6 +134,20 @@ public class Main {
 	// 상우하좌 왼위 왼아래 오위 오아래
 	static int[] dx = { -1, 0, 1, 0, -1, 1, -1, 1 };
 	static int[] dy = { 0, 1, 0, -1, -1, -1, 1, 1 };
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public static boolean isAllSantaDead() {
+		int cnt = 0; // 살아있는 산타 수 세기
+		for(Santa santa : santas) {
+			if(!santa.isDead) cnt++;
+		}
+		
+		if(cnt == 0) return true;
+		return false;
+	}
 
 	/**
 	 * 루돌프 이동
@@ -152,9 +159,13 @@ public class Main {
 
 		// 1. 가장 가까운 산타 선택
 		for (Santa santa : santas) {
+			
+			// 탈락한 산타는 패스!
+			if(santa.isDead) continue;
+			
 			int len = (int) (Math.pow(santa.x - rudolph.x, 2) + Math.pow(santa.y - rudolph.y, 2));
 
-			// System.out.println(santa.num + "번 산타와 루돌프 사이의 거리 : " + len);
+			//System.out.println(santa.num + "번 산타와 루돌프 사이의 거리 : " + len);
 
 			if (len < minLen) {
 				minLen = len;
@@ -177,6 +188,8 @@ public class Main {
 
 		//System.out.printf("(%d, %d) 위치에 있는 산타 쪽으로 이동\n", maxR, maxC);
 
+		if(minLen == Integer.MAX_VALUE) return;
+		
 		// 2. 인접 8방향 중 가까운 산타를 향해 돌진
 		minLen = Integer.MAX_VALUE;
 		int nextRudolphX = rudolph.x;
@@ -210,21 +223,20 @@ public class Main {
 	 */
 	static void ruDolphCrush(int curTurn) {
 		for (Santa santa : santas) {
+			
+			// 탈락한 산타는 패스
+			if(santa.isDead) continue;
+			
 			if (rudolph.x == santa.x && rudolph.y == santa.y) {
 				// 충돌!!
-				
 
 				// 해당 산타는 점수 get
 				santa.point += C;
 
 				// 해당 산타는 루돌프의 이동 방향으로 C칸 밀림
-				int nx = santa.x;
-				int ny = santa.y;
+				int nx = santa.x + C * dx[rudolph.d];
+				int ny = santa.y + C * dy[rudolph.d];
 
-				for (int i = 0; i < C; i++) {
-					nx = nx + dx[rudolph.d];
-					ny = ny + dy[rudolph.d];
-				}
 
 				santa.x = nx;
 				santa.y = ny;
@@ -232,12 +244,10 @@ public class Main {
 				// 산타 기절
 				santa.faintingTurn = curTurn;
 
-				// 밀린 곳이 경계 밖이면 제거
+				// 밀린 곳이 경계 밖이면 탈락
 				if (nx <= 0 || nx > N || ny <= 0 || ny > N) {
-					santas.remove(santa);
-
-					// 제거될 때 포인트 저장해주기
-					points.add(new Point(santa.num, santa.point));
+					santa.isDead = true;
+					return;
 				} else {
 					// 밀린 곳에 산타 있는지 확인
 					checkSanta(santa, rudolph.d);
@@ -256,9 +266,12 @@ public class Main {
 	 */
 	static void checkSanta(Santa santa, int d) {
 		for (Santa s : santas) {
+			// 탈락한 산타는 패스
+			if(s.isDead) continue;
+			
 			// x랑 y가 같음
 			if (s.num != santa.num && s.x == santa.x && s.y == santa.y) {
-				// System.out.println("밀렸는데 " + s.num +"번 산타가 거기 있음");
+				//System.out.println("밀렸는데 " + s.num +"번 산타가 거기 있음");
 				
 				// s가 d방향으로 한 칸 밀림
 				int nx = s.x + dx[d];
@@ -269,10 +282,9 @@ public class Main {
 
 				// 밀린게 경계 밖이 면 산타에서 제거
 				if (nx <= 0 && nx > N && ny <= 0 && ny > N) {
-					santas.remove(s);
+					santa.isDead = true;
 
-					// 제거될 때 points에 추가해주기
-					points.add(new Point(s.num, s.point));
+					return;
 				} else {
 					// 밀렸는데 거기 산타가 있다면?
 					checkSanta(s, d);
@@ -294,6 +306,9 @@ public class Main {
 			// 기절한 산타는 이동 X
 			if (santa.faintingTurn != -1)
 				continue;
+			
+			// 탈락한 산타는 이동X
+			if(santa.isDead) continue;
 
 			int minLen = (int) (Math.pow(rudolph.x - santa.x, 2) + Math.pow(rudolph.y - santa.y, 2));
 			int nextSantaX = santa.x;
@@ -317,6 +332,11 @@ public class Main {
 			santa.x = nextSantaX;
 			santa.y = nextSantaY;
 			santa.d = d;
+
+			//System.out.println(santa.num + "번 산타 이동 완료!!!!!" + santa.x + ", " + santa.y);
+
+			// 2-1. 산타 이동 후 루돌프와 충돌 확인
+			santaCrush(curTurn, santa);
 
 		}
 	}
@@ -344,48 +364,43 @@ public class Main {
 	 * 
 	 * 
 	 */
-	static void santaCrush(int curTurn) {
-		for (Santa santa : santas) {
+	static void santaCrush(int curTurn, Santa curSanta) {
+		if (curSanta.x == rudolph.x && curSanta.y == rudolph.y) {
+			//System.out.println(curSanta.num + "번  산타 충돌임!!");
 			
-			if (santa.x == rudolph.x && santa.y == rudolph.y) {
-				//System.out.println(santa.num + "번  산타 충돌임!!");
-				santa.point += D;
+			curSanta.point += D;
 
-				// 해당 산타는 자신의 반대 방향으로 D칸 밀림
-				int nx = santa.x;
-				int ny = santa.y;
-				int reverseD = reverseDirection(santa.d);
+			// 해당 산타는 자신의 반대 방향으로 D칸 밀림
+			int nx = curSanta.x;
+			int ny = curSanta.y;
+			int reverseD = reverseDirection(curSanta.d);
 
-				for (int i = 0; i < D; i++) {
-					nx = nx + dx[reverseD];
-					ny = ny + dy[reverseD];
-				}
+			
+			nx = nx + D * dx[reverseD];
+			ny = ny + D * dy[reverseD];
+			
 
-				santa.x = nx;
-				santa.y = ny;
+			curSanta.x = nx;
+			curSanta.y = ny;
 
-				// 산타 기절
-				santa.faintingTurn = curTurn;
+			// 산타 기절
+			curSanta.faintingTurn = curTurn;
 
-				 //System.out.println("충돌한 " + santa.num + "번 산타는 (" + santa.x + ", " + santa.y + ") 로 이동");
+			//System.out.println("충돌한 " + curSanta.num + "번 산타는 (" + curSanta.x + ", " + curSanta.y + ") 로 이동");
 
-				// 밀린 곳이 경계 밖이면 제거
-				if (nx <= 0 || nx > N || ny <= 0 || ny > N) {
-					//System.out.println(santa.num + "번 산타 제거!!!!!!");
-					santas.remove(santa);
-
-					// 제거할 때 points에 추가해주기
-					points.add(new Point(santa.num, santa.point));
-				} else {
-					// 밀린 곳에 산타 있는지 확인
-					checkSanta(santa, reverseD);
-				}
-
+			// 밀린 곳이 경계 밖이면 제거
+			if (nx <= 0 || nx > N || ny <= 0 || ny > N) {
+				//System.out.println(curSanta.num + "번 산타 제거!!!!!!");
+				
+				curSanta.isDead = true;
+				return;
+			} else {
+				// 밀린 곳에 산타 있는지 확인
+				checkSanta(curSanta, reverseD);
 			}
+
 		}
-
 		
-
 	}
 
 	/**
