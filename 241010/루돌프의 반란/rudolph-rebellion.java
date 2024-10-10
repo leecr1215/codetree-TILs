@@ -97,6 +97,14 @@ public class Main {
 		for (int i = 0; i < M; i++) {
 			//System.out.printf("=======%d 번째 턴=========\n", i + 1);
 
+			//0. 현재가 기절턴 + 2인 산타들 풀어주기
+			for(Santa santa : santas) {
+				if(santa.faintingTurn!=-1 && santa.faintingTurn + 2 == i) {
+					santa.faintingTurn = -1;
+				}
+			}
+			
+			
 			// 1. 루돌프 이동
 			moveRudolph();
 
@@ -253,7 +261,6 @@ public class Main {
 					checkSanta(santa, rudolph.d);
 				}
 
-				break;
 			}
 		}
 
@@ -265,12 +272,16 @@ public class Main {
 	 * @param santa
 	 */
 	static void checkSanta(Santa santa, int d) {
+		
 		for (Santa s : santas) {
 			// 탈락한 산타는 패스
 			if(s.isDead) continue;
 			
+			// 자기 자신은 패스
+			if(s.num == santa.num) continue;
+			
 			// x랑 y가 같음
-			if (s.num != santa.num && s.x == santa.x && s.y == santa.y) {
+			if (s.x == santa.x && s.y == santa.y) {
 				//System.out.println("밀렸는데 " + s.num +"번 산타가 거기 있음");
 				
 				// s가 d방향으로 한 칸 밀림
@@ -281,8 +292,8 @@ public class Main {
 				s.y = ny;
 
 				// 밀린게 경계 밖이 면 산타에서 제거
-				if (nx <= 0 && nx > N && ny <= 0 && ny > N) {
-					santa.isDead = true;
+				if (nx <= 0 || nx > N || ny <= 0 || ny > N) {
+					s.isDead = true;
 
 					return;
 				} else {
@@ -299,9 +310,6 @@ public class Main {
 	 */
 	static void moveSanta(int curTurn) {
 		for (Santa santa : santas) {
-			if (santa.faintingTurn != -1 && santa.faintingTurn + 2 == curTurn) {
-				santa.faintingTurn = -1; // 정상상태로 만들어주기
-			}
 
 			// 기절한 산타는 이동 X
 			if (santa.faintingTurn != -1)
@@ -329,12 +337,17 @@ public class Main {
 				}
 			}
 
+			
 			santa.x = nextSantaX;
 			santa.y = nextSantaY;
 			santa.d = d;
 
 			//System.out.println(santa.num + "번 산타 이동 완료!!!!!" + santa.x + ", " + santa.y);
 
+			
+			
+			if (isAllSantaDead()) return;
+			
 			// 2-1. 산타 이동 후 루돌프와 충돌 확인
 			santaCrush(curTurn, santa);
 
@@ -351,6 +364,10 @@ public class Main {
 	static boolean otherSanta(int nx, int ny) {
 
 		for (Santa santa : santas) {
+			
+			// 탈락 산타 제외
+			if(santa.isDead) continue;
+			
 			if (santa.x == nx && santa.y == ny) {
 				return true;
 			}
